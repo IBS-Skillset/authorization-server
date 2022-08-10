@@ -1,6 +1,8 @@
 package com.mystays.authorizationserver.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -8,15 +10,18 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "USER_TBL")
-@Getter
-@Setter
+@Table(name = "USERS")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String userName;
+    private String firstName;
+    private String lastName;
+    @Column(length = 60)
     private String password;
     private String email;
+    private String role;
+    private boolean enabled = true;
+
 }

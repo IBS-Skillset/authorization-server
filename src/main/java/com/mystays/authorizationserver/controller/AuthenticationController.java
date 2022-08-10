@@ -3,58 +3,63 @@ package com.mystays.authorizationserver.controller;
 import com.mystays.authorizationserver.config.CustomAuthenticationManager;
 import com.mystays.authorizationserver.entity.User;
 import com.mystays.authorizationserver.model.AuthenticationRequest;
+import com.mystays.authorizationserver.model.AuthenticationResponse;
 import com.mystays.authorizationserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
+@Validated
+@Slf4j
 public class AuthenticationController {
 
-    @Autowired
     private CustomAuthenticationManager customAuthenticationManager;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+    public AuthenticationController(CustomAuthenticationManager customAuthenticationManager ,UserRepository userRepository ,PasswordEncoder passwordEncoder){
+        this.customAuthenticationManager = customAuthenticationManager;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostConstruct
     public void initUsers() {
-
-        String password1 = passwordEncoder.encode("password");
-        String password2 = passwordEncoder.encode("pwd1");
-        String password3 = passwordEncoder.encode("pwd2");
-        String password4 = passwordEncoder.encode("pwd3");
         List<User> users = Stream.of(
-                new User(101, "rithin", password1, "rithin@gmail.com"),
-                new User(102, "user1", password2, "user1@gmail.com"),
-                new User(103, "user2", password3, "user2@gmail.com"),
-                new User(104, "user3", password4, "user3@gmail.com")
+                new User(101, "Rithin" ,"Remash", passwordEncoder.encode("password"), "rithin@gmail.com" ,"USER" ,true),
+                new User(102, "Abhishek" ,"Ravindran", passwordEncoder.encode("pwd1"), "abhishek@gmail.com" ,"USER" ,true),
+                new User(103, "Noel" ,"Shibu", passwordEncoder.encode("pwd2"), "noel@gmail.com" ,"USER" ,true)
         ).collect(Collectors.toList());
         userRepository.saveAll(users);
     }
 
     @PostMapping("/authenticate")
-    public String authenticateUser(@RequestBody AuthenticationRequest authRequest) throws Exception {
-        final Authentication authentication = customAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+    public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest authRequest) {
+        log.info("Authenticate endpoint called");
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        final Authentication authentication = customAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmailId(), authRequest.getPassword()));
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
             // set authentication in security context holder
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "Authenticated" ;
+            authenticationResponse.setStatus("Authenticated");
         }
-        else return "Not Authenticated";
+        return new ResponseEntity<>(authenticationResponse, HttpStatus.OK) ;
     }
 }
