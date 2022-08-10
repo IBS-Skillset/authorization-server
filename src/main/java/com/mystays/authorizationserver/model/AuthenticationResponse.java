@@ -1,18 +1,15 @@
 package com.mystays.authorizationserver.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationRequest {
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+public class AuthenticationResponse {
 
-    @NotNull
-    private String emailId;
-    @NotNull
-    private String password;
+    private String status;
 }
