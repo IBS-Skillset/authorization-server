@@ -1,16 +1,11 @@
-package com.mystays.authorizationserver.entity;
+package com.example.authserver.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "USERS")
 public class User {
 
     @Id
@@ -23,5 +18,4 @@ public class User {
     private String email;
     private String role;
     private boolean enabled = true;
-
 }
