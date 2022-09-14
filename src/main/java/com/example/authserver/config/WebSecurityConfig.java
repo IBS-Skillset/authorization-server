@@ -24,11 +24,13 @@ public class WebSecurityConfig  {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     corsCustomizer.corsCustomizer(http);
     return http.formLogin(form -> form
-            .loginPage("/login")
-            .permitAll())
-          .authorizeRequests()
-            .anyRequest().authenticated()
-          .and().build();
+                    .loginProcessingUrl("/testlogin")
+                    .loginPage("http://127.0.0.1:3000/signin")
+                    .defaultSuccessUrl("http://127.0.0.1:3000/home")
+                    .permitAll())
+            .authorizeRequests().antMatchers("/testlogin**").permitAll().anyRequest().authenticated().and().headers().frameOptions().disable()
+            .and().csrf().ignoringAntMatchers("/testlogin**").and()
+            .build();
   }
   @Autowired
   public void bindAuthenticationProvider(AuthenticationManagerBuilder authenticationManagerBuilder) {

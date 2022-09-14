@@ -37,7 +37,7 @@ public class AuthorizationServerConfig {
   public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
     corsCustomizer.corsCustomizer(http);
-    return http.formLogin().and().build();
+    return http.formLogin().loginPage("http://127.0.0.1:3000/signin").defaultSuccessUrl("http://127.0.0.1:3000/home").failureForwardUrl("http://localhost:3000/fail").and().build();
   }
 
   @Bean
