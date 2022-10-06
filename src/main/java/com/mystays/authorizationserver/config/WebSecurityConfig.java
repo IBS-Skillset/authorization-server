@@ -1,26 +1,48 @@
 package com.mystays.authorizationserver.config;
 
+import com.mystays.authorizationserver.service.CustomAuthenticationProvider;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.mystays.authorizationserver.constants.AuthConstants.*;
+
 @EnableWebSecurity
+@Configuration
+@AllArgsConstructor
 public class WebSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    private CustomAuthenticationProvider customAuthenticationProvider;
 
-        http.csrf().disable().authorizeRequests().antMatchers("/authenticate/**")
-                .permitAll().anyRequest().authenticated();
-        return http.build();
+    private final CORSCustomizer corsCustomizer;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        corsCustomizer.corsCustomizer(http);
+        return http.formLogin(form -> form
+                        .loginProcessingUrl(LOGIN_PROCESSING_URL)
+                        .loginPage(LOGIN_PAGE)
+                        .defaultSuccessUrl(SUCCESS_URL)
+                        .failureUrl(FAILURE_URL)
+                        .permitAll())
+                .authorizeRequests().antMatchers(LOGIN_PROCESSING_URL_PATTERNS)
+                .permitAll().anyRequest().authenticated()
+                .and().headers().frameOptions().disable()
+                .and().csrf().ignoringAntMatchers(LOGIN_PROCESSING_URL_PATTERNS).and()
+                .build();
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider);
+        return authenticationManagerBuilder.build();
     }
 
 }
