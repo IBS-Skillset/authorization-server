@@ -10,12 +10,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
@@ -42,7 +46,7 @@ public class AuthorizationServerConfig {
   }
 
   @Bean
-  public RegisteredClientRepository registeredClientRepository() {
+  public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
     RegisteredClient registeredClient = RegisteredClient.withId(REGISTERED_CLIENT_ID)
         .clientId(CLIENT_ID)
         .clientSecret(SECRET_KEY)
@@ -58,7 +62,16 @@ public class AuthorizationServerConfig {
             .build())
         .build();
 
-    return new InMemoryRegisteredClientRepository(registeredClient);
+    JdbcRegisteredClientRepository registeredClientRepository =
+            new JdbcRegisteredClientRepository(jdbcTemplate);
+    registeredClientRepository.save(registeredClient);
+
+    return registeredClientRepository;
+  }
+
+  @Bean
+  public JdbcOAuth2AuthorizationService jdbcOAuth2AuthorizationService(JdbcOperations jdbcOperations, RegisteredClientRepository registeredClientRepository){
+    return new JdbcOAuth2AuthorizationService(jdbcOperations, registeredClientRepository);
   }
 
   @Bean
