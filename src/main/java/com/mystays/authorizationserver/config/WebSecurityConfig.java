@@ -30,10 +30,16 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl(SUCCESS_URL)
                         .failureUrl(FAILURE_URL)
                         .permitAll())
-                .authorizeRequests().antMatchers(LOGIN_PROCESSING_URL_PATTERNS)
+                .logout(logout -> logout
+                        .logoutUrl(LOGOUT_URL)
+                        .logoutSuccessUrl(SUCCESS_URL)
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies(COOKIES).permitAll())
+                .authorizeRequests().antMatchers(LOGIN_PROCESSING_URL_PATTERNS, LOGOUT_URL_PATTERNS)
                 .permitAll().anyRequest().authenticated()
                 .and().headers().frameOptions().disable()
-                .and().csrf().ignoringAntMatchers(LOGIN_PROCESSING_URL_PATTERNS).and()
+                .and().csrf().ignoringAntMatchers(LOGIN_PROCESSING_URL_PATTERNS, LOGOUT_URL_PATTERNS).and()
                 .build();
     }
 
