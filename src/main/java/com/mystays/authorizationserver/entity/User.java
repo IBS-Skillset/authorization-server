@@ -24,4 +24,7 @@ public class User {
     private String role;
     private boolean enabled = true;
 
+    private String phone;
+
+
 }
