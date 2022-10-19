@@ -6,6 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,7 +28,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private Authentication checkPassword(UserDetails user, String rawPassword) {
-        if (rawPassword.equals(user.getPassword())) {
+        PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+        if (  passwordEncoder.matches(rawPassword,user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(user.getUsername(),
                     user.getPassword(),
                     user.getAuthorities());
