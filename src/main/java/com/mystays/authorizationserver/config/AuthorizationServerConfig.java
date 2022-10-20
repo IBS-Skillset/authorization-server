@@ -80,7 +80,7 @@ public class AuthorizationServerConfig {
   }
 
   @Bean
-  public JWKSource<SecurityContext> jwkSource() {
+  public JWKSource<SecurityContext> jwkSource() throws Exception{
     RSAKey rsaKey = JwksKeys.generateRSAKey();
     JWKSet set = new JWKSet(rsaKey);
     return (j, sc) -> j.select(set);
