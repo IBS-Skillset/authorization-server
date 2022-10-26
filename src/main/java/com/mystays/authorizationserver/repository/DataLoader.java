@@ -4,6 +4,7 @@ import com.mystays.authorizationserver.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,7 +27,7 @@ public class DataLoader implements ApplicationRunner {
         user.setFirstName("TestFirstName");
         user.setLastName("TestLastName");
         user.setRole("USER");
-        user.setPassword("test");
+        user.setPassword(BCrypt.hashpw("test", BCrypt.gensalt()));
         userRepository.save(user);
     }
 }
