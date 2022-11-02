@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies(COOKIES).permitAll())
-                .authorizeRequests().antMatchers(LOGIN_PROCESSING_URL_PATTERNS, LOGOUT_URL_PATTERNS)
+                .authorizeRequests().antMatchers(LOGIN_PROCESSING_URL_PATTERNS, LOGOUT_URL_PATTERNS,"/register")
                 .permitAll().anyRequest().authenticated()
                 .and().headers().frameOptions().disable()
                 .and().csrf().ignoringAntMatchers(LOGIN_PROCESSING_URL_PATTERNS, LOGOUT_URL_PATTERNS).and()

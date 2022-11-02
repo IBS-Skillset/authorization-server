@@ -10,11 +10,11 @@ import java.util.Date;
 
 @Service
 @Transactional
-
 public class TokenPurge {
 
-    final JdbcTemplate jdbcTemplate;
+    private static String purgeQuery = "DELETE FROM mystays.oauth2_authorization WHERE refresh_token_expires_at < NOW()";
 
+    final JdbcTemplate jdbcTemplate;
     public TokenPurge(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -23,6 +23,6 @@ public class TokenPurge {
     public void purgeExpired() {
         Date now = Date.from(Instant.now());
         System.out.println("Scheduler");
-        jdbcTemplate.update("DELETE FROM mystays.oauth2_authorization WHERE refresh_token_expires_at < NOW()");
+        jdbcTemplate.update(purgeQuery);
     }
 }

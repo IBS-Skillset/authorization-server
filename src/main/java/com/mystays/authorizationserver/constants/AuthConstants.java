@@ -17,6 +17,8 @@ public class AuthConstants {
     public static final List<String> ALLOWED_ORIGINS = List.of("http://127.0.0.1:3000",
             "http://localhost:3000");
     public static final String COOKIES = "JSESSIONID";
+    public static final String refreshTokenTimeToLive= "10";
+    public static final String accessTokenTimeToLive= "5";
 
     private AuthConstants () {
     }

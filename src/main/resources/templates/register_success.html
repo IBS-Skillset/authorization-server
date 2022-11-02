@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Registration Success</title>
+    <style type="text/css">
+        span {
+            display: inline-block;
+            width: 200px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <h2>Client Registration Succeeded!</h2>
+    <span>Client name:</span><span th:text="${clientmodel.client}"></span><br/>
+    <span>Secret:</span><span th:text="${clientmodel.secret}"></span><br/>
+</div>
+</body>
+</html>

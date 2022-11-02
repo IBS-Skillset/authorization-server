@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class ErrorResponse {
-
     private String status;
     private int errorCode;
     private String errorText;

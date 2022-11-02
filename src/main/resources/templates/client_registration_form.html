@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Client Registration</title>
+    <style type="text/css">
+        label {
+            background-color: aliceblue;
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text], input[type=password], select {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type=radio] {
+            margin-left: 45px;
+        }
+        input[type=checkbox] {
+            margin-right: 190px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body style="background-color:grey;">
+<div align="center">
+    <h1>Client Registration</h1>
+    <form action="#" th:action="@{/register}" method="post" th:object="${clientmodel}">
+        <label>Client name</label>
+        <input type="text" th:field="*{client}" /><br/>
+
+        <label>Secret</label>
+        <input type="password" th:field="*{secret}" /><br/>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
