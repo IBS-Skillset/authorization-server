@@ -2,7 +2,6 @@ package com.mystays.authorizationserver.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mystays.authorizationserver.model.AuthenticationRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MvcResult;
@@ -24,9 +23,5 @@ public final class TestUtils {
 
     public static Authentication authentication() {
         return new UsernamePasswordAuthenticationToken("rithin@gmail.com", "password");
-    }
-
-    public static AuthenticationRequest authenticationRequest() {
-        return new AuthenticationRequest("rithin@gmail.com", "password");
     }
 }

@@ -5,7 +5,7 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -32,10 +31,19 @@ import java.time.Duration;
 import static com.mystays.authorizationserver.constants.AuthConstants.*;
 
 @Configuration
-@AllArgsConstructor
 public class AuthorizationServerConfig {
 
   private final CORSCustomizer corsCustomizer;
+
+  private final RSAConfiguration rsaConfiguration;
+
+  private final String issuerUrl;
+
+  public AuthorizationServerConfig(CORSCustomizer corsCustomizer, RSAConfiguration rsaConfiguration, @Value ("${config.issuer}") String issuerUrl) {
+    this.corsCustomizer = corsCustomizer;
+    this.rsaConfiguration = rsaConfiguration;
+    this.issuerUrl = issuerUrl;
+  }
 
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -58,7 +66,8 @@ public class AuthorizationServerConfig {
         .clientSettings(ClientSettings.builder()
             .requireAuthorizationConsent(true).build())
         .tokenSettings(TokenSettings.builder()
-            .refreshTokenTimeToLive(Duration.ofHours(10))
+                .accessTokenTimeToLive(Duration.ofMinutes(Long.parseLong(accessTokenTimeToLive)))
+            .refreshTokenTimeToLive(Duration.ofHours(Long.parseLong(refreshTokenTimeToLive)))
             .build())
         .build();
 
@@ -76,12 +85,12 @@ public class AuthorizationServerConfig {
 
   @Bean
   public ProviderSettings providerSettings() {
-    return ProviderSettings.builder().issuer("http://localhost:9000").build();
+    return ProviderSettings.builder().issuer(issuerUrl) .build();
   }
 
   @Bean
   public JWKSource<SecurityContext> jwkSource() throws Exception{
-    RSAKey rsaKey = JwksKeys.generateRSAKey();
+    RSAKey rsaKey = JwksKeys.generateRSAKey(rsaConfiguration);
     JWKSet set = new JWKSet(rsaKey);
     return (j, sc) -> j.select(set);
   }
