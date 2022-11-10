@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: AUTHORIZATION-SERVER
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:9296/config-server
+      name: spring-db-dev

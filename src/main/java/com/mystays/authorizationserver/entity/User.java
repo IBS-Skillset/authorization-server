@@ -12,14 +12,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "USERS")
 public class User {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String firstName;
     private String lastName;
     @Column(length = 60)
     private String password;
-    @Id
+    @Column(unique = true)
     private String email;
     private String role;
     private boolean enabled = true;

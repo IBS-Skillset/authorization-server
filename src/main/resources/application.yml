@@ -5,27 +5,6 @@ server:
     session:
       timeout: 5
 
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=mystays
-    username: postgres
-    password: manager123
-    driverClassName: org.postgresql.Driver
-    initialize: true
-  jpa:
-    show-sql: true
-    database: POSTGRESQL
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        default_schema: mystays
-        dialect: org.hibernate.dialect.PostgreSQL81Dialect
-  sql:
-    init:
-      platform: postgres
-      continue-on-error: true
-      mode: always
 purge:
   cron:
     expression: 0 0/1 * * * ?
