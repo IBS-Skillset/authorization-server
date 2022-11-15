@@ -5,13 +5,41 @@ server:
     session:
       timeout: 5
 
+spring:
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driverClassName: org.postgresql.Driver
+    initialize: true
+  jpa:
+    show-sql: ${db.log.sql}
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: ${db.default-schema}
+        dialect: org.hibernate.dialect.PostgreSQL81Dialect
+  sql:
+    init:
+      platform: postgres
+      continue-on-error: true
+      mode: always
 purge:
   cron:
-    expression: 0 0/1 * * * ?
+    expression: 0 0/5 * * * ?
 
 config:
   issuer : http://localhost:9000
-
-
-
-
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${eureka.service-url.default}
