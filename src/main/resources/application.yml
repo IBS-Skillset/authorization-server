@@ -26,9 +26,6 @@ spring:
       platform: postgres
       continue-on-error: true
       mode: always
-purge:
-  cron:
-    expression: 0 0/5 * * * ?
 
 config:
   issuer : http://localhost:9000

@@ -5,4 +5,4 @@ spring:
     config:
       enabled: true
       uri: http://localhost:9296/config-server
-      name: account-service
+      name: account-service,${spring.application.name}

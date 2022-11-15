@@ -39,10 +39,16 @@ public class AuthorizationServerConfig {
 
   private final String issuerUrl;
 
-  public AuthorizationServerConfig(CORSCustomizer corsCustomizer, RSAConfiguration rsaConfiguration, @Value ("${config.issuer}") String issuerUrl) {
+  private final String refreshTokenDuration;
+
+  private final String accessTokenDuration;
+
+  public AuthorizationServerConfig(CORSCustomizer corsCustomizer, RSAConfiguration rsaConfiguration, @Value ("${config.issuer}") String issuerUrl,@Value("${access.token.time.minutes}") String refreshTokenDuration,@Value("${access.token.time.minutes}") String accessTokenDuration) {
     this.corsCustomizer = corsCustomizer;
     this.rsaConfiguration = rsaConfiguration;
     this.issuerUrl = issuerUrl;
+    this.refreshTokenDuration=refreshTokenDuration;
+    this.accessTokenDuration=accessTokenDuration;
   }
 
   @Bean
@@ -66,8 +72,8 @@ public class AuthorizationServerConfig {
         .clientSettings(ClientSettings.builder()
             .requireAuthorizationConsent(true).build())
         .tokenSettings(TokenSettings.builder()
-                .accessTokenTimeToLive(Duration.ofMinutes(Long.parseLong(ACCESS_TOKEN_TIME_TO_LIVE)))
-            .refreshTokenTimeToLive(Duration.ofHours(Long.parseLong(REFRESH_TOKEN_TIME_TO_LIVE)))
+                .accessTokenTimeToLive(Duration.ofMinutes(Long.parseLong(accessTokenDuration)))
+            .refreshTokenTimeToLive(Duration.ofHours(Long.parseLong(refreshTokenDuration)))
             .build())
         .build();
 

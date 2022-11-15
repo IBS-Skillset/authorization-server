@@ -1,3 +1,4 @@
+CREATE SCHEMA IF NOT EXISTS mystays;
 CREATE TABLE mystays.oauth2_authorization (
                                            id varchar(100) NOT NULL,
                                            registered_client_id varchar(100) NOT NULL,
