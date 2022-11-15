@@ -17,9 +17,6 @@ public class AuthConstants {
     public static final List<String> ALLOWED_ORIGINS = List.of("http://127.0.0.1:3000",
             "http://localhost:3000");
     public static final String COOKIES = "JSESSIONID";
-    public static final String REFRESH_TOKEN_TIME_TO_LIVE = "10";
-    public static final String ACCESS_TOKEN_TIME_TO_LIVE = "5";
-
     public static final String RSA_UUID = "421903e4-0efd-46ed-b3de-ba27f713457f";
 
     private AuthConstants () {
