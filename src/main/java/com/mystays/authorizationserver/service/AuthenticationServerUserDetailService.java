@@ -2,7 +2,6 @@ package com.mystays.authorizationserver.service;
 
 import com.mystays.authorizationserver.entity.User;
 import com.mystays.authorizationserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +25,6 @@ public class AuthenticationServerUserDetailService implements UserDetailsService
         if(ObjectUtils.isEmpty(user)){
             throw new UsernameNotFoundException("Invalid User");
         }
-        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(String.valueOf(user.getId()), user.getPassword(), new ArrayList<>());
     }
 }
