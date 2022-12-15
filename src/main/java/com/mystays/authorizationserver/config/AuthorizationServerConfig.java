@@ -1,6 +1,7 @@
 package com.mystays.authorizationserver.config;
 
 import com.mystays.authorizationserver.config.keys.JwksKeys;
+import com.mystays.authorizationserver.service.OidcUserInfoService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -17,7 +18,11 @@ import org.springframework.security.config.annotation.web.configuration.OAuth2Au
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -100,4 +105,18 @@ public class AuthorizationServerConfig {
     JWKSet set = new JWKSet(rsaKey);
     return (j, sc) -> j.select(set);
   }
+
+    @Bean
+    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(
+            OidcUserInfoService userInfoService) {
+      return (context) -> {
+        if (OidcParameterNames.ID_TOKEN.equals(context.getTokenType().getValue())) {
+          OidcUserInfo userInfo = userInfoService.loadUser(
+                  context.getPrincipal().getName());
+          context.getClaims().claims(claims ->
+                  claims.putAll(userInfo.getClaims()));
+        }
+      };
+    }
+
 }
