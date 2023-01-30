@@ -15,6 +15,8 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
 public class JwksKeys {
+    private JwksKeys(){
+    }
     public static RSAKey generateRSAKey(RSAConfiguration rsaConfiguration) throws Exception {
         try {
             BigInteger mod = new BigInteger(rsaConfiguration.getMod());

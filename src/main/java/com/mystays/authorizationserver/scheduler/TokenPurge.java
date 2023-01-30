@@ -5,8 +5,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
-import java.util.Date;
 
 @Service
 @Transactional
@@ -21,8 +19,6 @@ public class TokenPurge {
 
     @Scheduled(cron = "${purge.cron.expression}")
     public void purgeExpired() {
-        Date now = Date.from(Instant.now());
-        System.out.println("Scheduler");
         jdbcTemplate.update(purgeQuery);
     }
 }
