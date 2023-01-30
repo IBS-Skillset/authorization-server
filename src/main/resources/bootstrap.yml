@@ -4,5 +4,5 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://localhost:9296/config-server
+      uri: http://${HOST_IP:localhost}:9296/config-server
       name: account-service,${spring.application.name}

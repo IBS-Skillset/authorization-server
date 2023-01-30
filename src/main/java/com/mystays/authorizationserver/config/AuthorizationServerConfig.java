@@ -109,7 +109,7 @@ public class AuthorizationServerConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(
             OidcUserInfoService userInfoService) {
-      return (context) -> {
+      return context -> {
         if (OidcParameterNames.ID_TOKEN.equals(context.getTokenType().getValue())) {
           OidcUserInfo userInfo = userInfoService.loadUser(
                   context.getPrincipal().getName());
