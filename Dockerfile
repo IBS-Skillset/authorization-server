@@ -1,4 +1,4 @@
-FROM amazoncorretto:11
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:11
 WORKDIR /app
 COPY target/oauth-server.jar /app
 EXPOSE 9000
