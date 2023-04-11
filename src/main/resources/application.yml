@@ -7,7 +7,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${HOST_IP:127.0.0.1}:5432/postgres?currentSchema=mystays
+    url: jdbc:postgresql://${HOST_CONFIG:127.0.0.1}:5432/postgres?currentSchema=mystays
     username: ${db.username}
     password: ${db.password}
     driverClassName: org.postgresql.Driver
