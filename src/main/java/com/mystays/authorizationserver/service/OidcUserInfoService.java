@@ -35,7 +35,7 @@ public class OidcUserInfoService {
         try {
             info.claim("address", new ObjectMapper().writeValueAsString(user.get().getAddress()));
         } catch (Exception e) {
-            log.error("Exception occurred while creating oidc token " + e);
+            log.error("Exception occurred while creating oidc token.. " + e);
         }
         return info.build()
                 .getClaims();
