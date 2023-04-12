@@ -1,0 +1,11 @@
+.idea/
+*.iml
+*.iws
+.sonar/
+.sonarlint/
+.mvn/
+mvn/
+*.log
+*.jar
+.git/
+.gitignore

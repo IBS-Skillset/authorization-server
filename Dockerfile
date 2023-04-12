@@ -1,4 +1,5 @@
-FROM amazoncorretto:11-alpine-jdk
-MAINTAINER happystays
-COPY target/oauth-server-1.0.jar oauth-docker-1.0.jar
-ENTRYPOINT ["java","-jar","/oauth-docker-1.0.jar"]
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:11
+WORKDIR /app
+COPY target/oauth-server.jar /app
+EXPOSE 9000
+ENTRYPOINT ["java","-jar","oauth-server.jar"]

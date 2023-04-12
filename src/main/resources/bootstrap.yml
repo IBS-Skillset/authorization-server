@@ -1,6 +1,6 @@
 spring:
   application:
-    name: AUTHORIZATION-SERVER
+    name: authorization-server
   cloud:
     config:
       enabled: true
