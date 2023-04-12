@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authserver
+  namespace: beta-app
+  labels:
+    app.kubernetes.io/name: authserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: authserver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: authserver
+    spec:
+      containers:
+        - name: authserver-api
+          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/oauth-server:9bcabb6
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 9000
+          env:
+            - name: HOST_IP
+              value: authserver.beta-app
+            - name: HOST_CONFIG
+              value: config-server.beta-app
+            - name: HOST_DB
+              value: postgres-service.db-system
