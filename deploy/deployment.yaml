@@ -30,3 +30,5 @@ spec:
               value: config-server.beta-app
             - name: HOST_DB
               value: postgres-service.db-system
+            - name: HOST_REGISTRY
+              value: service-registry.beta-app
