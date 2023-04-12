@@ -16,7 +16,7 @@ spring:
     show-sql: ${db.log.sql}
     database: POSTGRESQL
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         default_schema: ${db.default-schema}
