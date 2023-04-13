@@ -6,3 +6,11 @@ spring:
       enabled: true
       uri: http://${HOST_CONFIG:localhost}:9296/config-server
       name: account-service,${spring.application.name}
+aws:
+  secretsmanager:
+    prefix: /secret
+    defaultContext: happystays
+    profileSeparator: _
+    failFast: true
+    name: authorization-server
+    enabled: true
