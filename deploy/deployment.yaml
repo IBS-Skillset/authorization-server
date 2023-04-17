@@ -32,3 +32,10 @@ spec:
               value: postgres-service.db-system
             - name: HOST_REGISTRY
               value: service-registry.beta-app
+          resources:
+            requests:
+              memory: "250Mi"
+              cpu: "200m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
