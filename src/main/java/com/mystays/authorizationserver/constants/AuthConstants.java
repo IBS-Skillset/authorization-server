@@ -14,8 +14,7 @@ public class AuthConstants {
     public static final String REGISTERED_CLIENT_ID = "88b6d0cd-4cf9-4e7d-bc5b-fa43dd82538c";
     public static final String CLIENT_ID = "client";
     public static final String SECRET_KEY = "{noop}secret";
-    public static final List<String> ALLOWED_ORIGINS = List.of("http://127.0.0.1:3000",
-            "http://localhost:3000", "http://k8s-betaapp-ingressm-29790a68fa-1285978643.ap-south-1.elb.amazonaws.com");
+    public static final List<String> ALLOWED_ORIGINS = List.of("http://localhost:3000", "http://k8s-betaapp-ingressm-29790a68fa-1285978643.ap-south-1.elb.amazonaws.com");
     public static final String COOKIES = "JSESSIONID";
     public static final String RSA_UUID = "421903e4-0efd-46ed-b3de-ba27f713457f";
 
