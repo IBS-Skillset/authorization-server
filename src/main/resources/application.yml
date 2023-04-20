@@ -31,7 +31,7 @@ config:
   issuer : http://${HOST_IP:127.0.0.1}:9000
 eureka:
   instance:
-    host-name: authorization-server
+    hostname: authorization-server
     prefer-ip-address: false
     status-page-url-path: /actuator/info
     health-check-url-path: /actuator/health
