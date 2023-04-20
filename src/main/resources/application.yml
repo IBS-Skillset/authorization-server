@@ -31,7 +31,8 @@ config:
   issuer : http://${HOST_IP:127.0.0.1}:9000
 eureka:
   instance:
-    prefer-ip-address: true
+    host-name: authorization-server
+    prefer-ip-address: false
     status-page-url-path: /actuator/info
     health-check-url-path: /actuator/health
     instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
