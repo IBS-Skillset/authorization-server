@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: authserver
+  name: authorization-server
   namespace: beta-app
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 9000
       targetPort: 9000
   selector:
-    app.kubernetes.io/name: authserver
+    app.kubernetes.io/name: authorization-server
