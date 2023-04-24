@@ -2,15 +2,15 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: authserver
+  name: authorization-server
   namespace: beta-app
   labels:
-    app.kubernetes.io/name: authserver
+    app.kubernetes.io/name: authorization-server
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: authserver
+    name: authorization-server
   minReplicas: 1
   maxReplicas: 3
   metrics:
