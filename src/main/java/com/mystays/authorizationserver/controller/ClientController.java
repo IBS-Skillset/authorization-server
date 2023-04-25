@@ -1,6 +1,7 @@
 package com.mystays.authorizationserver.controller;
 
 
+import com.mystays.authorizationserver.constants.HostUi;
 import com.mystays.authorizationserver.model.ClientModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -24,9 +25,11 @@ import static com.mystays.authorizationserver.constants.AuthConstants.REDIRECT_U
 public class ClientController {
 
     private final JdbcTemplate jdbcTemplate;
+    private final HostUi hostUi;
 
-    public ClientController(JdbcTemplate jdbcTemplate) {
+    public ClientController(JdbcTemplate jdbcTemplate, HostUi hostUi) {
         this.jdbcTemplate = jdbcTemplate;
+        this.hostUi = hostUi;
     }
 
     @GetMapping("/register")
@@ -44,7 +47,7 @@ public class ClientController {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri(REDIRECT_URI)
+                .redirectUri(hostUi.uriPath(REDIRECT_URI))
                 .scope(OidcScopes.OPENID)
                 .clientSettings(ClientSettings.builder()
                         .requireAuthorizationConsent(true).build())

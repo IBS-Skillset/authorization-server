@@ -1,6 +1,7 @@
 package com.mystays.authorizationserver.config;
 
 import com.mystays.authorizationserver.config.keys.JwksKeys;
+import com.mystays.authorizationserver.constants.HostUi;
 import com.mystays.authorizationserver.service.OidcUserInfoService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -48,12 +49,15 @@ public class AuthorizationServerConfig {
 
   private final String accessTokenDuration;
 
-  public AuthorizationServerConfig(CORSCustomizer corsCustomizer, RSAConfiguration rsaConfiguration, @Value ("${config.issuer}") String issuerUrl,@Value("${access.token.time.minutes}") String refreshTokenDuration,@Value("${access.token.time.minutes}") String accessTokenDuration) {
+  private final HostUi hostUi;
+
+  public AuthorizationServerConfig(CORSCustomizer corsCustomizer, RSAConfiguration rsaConfiguration, @Value("${config.issuer}") String issuerUrl, @Value("${access.token.time.minutes}") String refreshTokenDuration, @Value("${access.token.time.minutes}") String accessTokenDuration, HostUi hostUi) {
     this.corsCustomizer = corsCustomizer;
     this.rsaConfiguration = rsaConfiguration;
     this.issuerUrl = issuerUrl;
     this.refreshTokenDuration=refreshTokenDuration;
     this.accessTokenDuration=accessTokenDuration;
+    this.hostUi = hostUi;
   }
 
   @Bean
@@ -61,7 +65,7 @@ public class AuthorizationServerConfig {
   public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
     corsCustomizer.corsCustomizer(http);
-    return http.formLogin().loginPage(LOGIN_PAGE).defaultSuccessUrl(SUCCESS_URL).and().build();
+    return http.formLogin().loginPage(hostUi.uriPath(LOGIN_PAGE)).defaultSuccessUrl(hostUi.uriPath(SUCCESS_URL)).and().build();
   }
 
   @Bean
@@ -72,7 +76,7 @@ public class AuthorizationServerConfig {
         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-        .redirectUri(REDIRECT_URI)
+        .redirectUri(hostUi.uriPath(REDIRECT_URI))
         .scope(OidcScopes.OPENID)
         .clientSettings(ClientSettings.builder()
             .requireAuthorizationConsent(true).build())

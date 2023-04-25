@@ -1,5 +1,6 @@
 package com.mystays.authorizationserver.config;
 
+import com.mystays.authorizationserver.constants.HostUi;
 import com.mystays.authorizationserver.service.CustomAuthenticationProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,18 +22,20 @@ public class WebSecurityConfig {
 
     private final CORSCustomizer corsCustomizer;
 
+    private final HostUi hostUi;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         corsCustomizer.corsCustomizer(http);
         return http.formLogin(form -> form
                         .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                        .loginPage(LOGIN_PAGE)
-                        .defaultSuccessUrl(SUCCESS_URL)
-                        .failureUrl(FAILURE_URL)
+                        .loginPage(hostUi.uriPath(LOGIN_PAGE))
+                        .defaultSuccessUrl(hostUi.uriPath(SUCCESS_URL))
+                        .failureUrl(hostUi.uriPath(FAILURE_URL))
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl(LOGOUT_URL)
-                        .logoutSuccessUrl(SUCCESS_URL)
+                        .logoutSuccessUrl(hostUi.uriPath(SUCCESS_URL))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies(COOKIES).permitAll())

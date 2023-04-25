@@ -29,6 +29,8 @@ spring:
 
 config:
   issuer : http://${HOST_IP:127.0.0.1}:9000
+host:
+  ui: http://${HOST_UI:127.0.0.1:3000}
 eureka:
   instance:
     hostname: authorization-server
