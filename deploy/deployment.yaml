@@ -29,14 +29,19 @@ spec:
           ports:
             - name: http
               containerPort: 9000
-          resources:
-            requests:
-              memory: "250Mi"
-              cpu: "200m"
-            limits:
-              memory: "500Mi"
-              cpu: "500m"
+            resources:
+              requests:
+                memory: "250Mi"
+                cpu: "200m"
+              limits:
+                memory: "500Mi"
+                cpu: "500m"
           env:
+            - name: HOST_UI
+                valueFrom:
+                  configMapKeyRef:
+                    name: ui-config
+                    key: HOST_URL
             - name: HOST_IP
               value: authorization-server
             - name: HOST_CONFIG
