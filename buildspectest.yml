@@ -39,9 +39,9 @@ phases:
           git checkout -B main
           git fetch --all
           git reset --hard neworigin/main
-          printf "\noauth-server" >> commitList.txt
+          printf "\nauthorization-server" >> commitList.txt
           git add commitList.txt
-          git commit -m "Adding oauth-server PR to commitlist ${CODEBUILD_WEBHOOK_TRIGGER}"
+          git commit -m "Adding authorization-server PR to commitlist ${CODEBUILD_WEBHOOK_TRIGGER}"
           git push neworigin main
         else
           gh pr comment $TAG --body "The tests have failed. Please check the logs and fix the issues."
