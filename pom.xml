@@ -101,7 +101,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>oauth-server</finalName>
+		<finalName>authorization-server</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
