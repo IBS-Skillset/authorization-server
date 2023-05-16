@@ -24,24 +24,24 @@ spec:
     spec:
       containers:
         - name: authorization-server-api
-          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/oauth-server:1dc809e
+          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/authorization-server:1dc809e
           imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 9000
-            resources:
-              requests:
-                memory: "250Mi"
-                cpu: "200m"
-              limits:
+          resources:
+            requests:
+              memory: "250Mi"
+              cpu: "200m"
+            limits:
                 memory: "500Mi"
                 cpu: "500m"
           env:
             - name: HOST_UI
-                valueFrom:
-                  configMapKeyRef:
-                    name: ui-config
-                    key: HOST_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ui-config
+                  key: HOST_URL
             - name: HOST_IP
               value: authorization-server
             - name: HOST_CONFIG
