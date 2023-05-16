@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: authorization-server-api
-          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/authorization-server:1dc809e
+          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/authorization-server:db26e4e
           imagePullPolicy: Always
           ports:
             - name: http
@@ -34,8 +34,8 @@ spec:
               memory: "250Mi"
               cpu: "200m"
             limits:
-                memory: "500Mi"
-                cpu: "500m"
+              memory: "500Mi"
+              cpu: "500m"
           env:
             - name: HOST_UI
               valueFrom:
