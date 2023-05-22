@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: authorization-server-api
-          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/authorization-server:485a2c4
+          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/authorization-server:1b08f92
           imagePullPolicy: Always
           ports:
             - name: http
